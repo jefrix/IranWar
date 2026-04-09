@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The One-Year Threshold — How Duration Is Resetting the Global Order</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,800;9..144,900&family=JetBrains+Mono:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0b;
+    --ink-2: #131418;
+    --ink-3: #1c1e24;
+    --paper: #f5f1e8;
+    --paper-dim: #d8d2c2;
+    --muted: #8a8577;
+    --amber: #e8a33d;
+    --amber-bright: #f5b947;
+    --rust: #c54a2c;
+    --blood: #8b1a1a;
+    --line: rgba(245, 241, 232, 0.12);
+    --line-strong: rgba(245, 241, 232, 0.25);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Noise overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ========== HERO ========== */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 40px 6vw 60px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 70% 20%, rgba(232, 163, 61, 0.15), transparent 60%),
+      radial-gradient(ellipse 60% 40% at 20% 80%, rgba(139, 26, 26, 0.25), transparent 60%),
+      linear-gradient(180deg, #0a0a0b 0%, #1a1410 100%);
+    z-index: -2;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(245, 241, 232, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245, 241, 232, 0.03) 1px, transparent 1px);
+    background-size: 80px 80px;
+    z-index: -1;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+  }
+
+  .masthead {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .masthead .mark {
+    color: var(--amber);
+    font-weight: 600;
+  }
+
+  .hero-content {
+    max-width: 1200px;
+    margin: auto 0;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: var(--amber);
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s ease-out;
+  }
+
+  .eyebrow::before {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--amber);
+  }
+
+  h1.title {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(48px, 9vw, 140px);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    margin-bottom: 32px;
+    animation: fadeUp 1s ease-out 0.1s backwards;
+  }
+
+  h1.title em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--amber);
+  }
+
+  .subtitle {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(20px, 2.5vw, 32px);
+    line-height: 1.3;
+    color: var(--paper-dim);
+    max-width: 800px;
+    margin-bottom: 48px;
+    animation: fadeUp 1s ease-out 0.3s backwards;
+  }
+
+  .meta-row {
+    display: flex;
+    gap: 48px;
+    flex-wrap: wrap;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    animation: fadeUp 1s ease-out 0.5s backwards;
+  }
+
+  .meta-row .label {
+    display: block;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .meta-row .value {
+    color: var(--paper);
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 400;
+  }
+
+  .meta-row .value.amber { color: var(--amber); }
+
+  /* ========== ARTICLE ========== */
+  article {
+    background: var(--ink);
+    position: relative;
+  }
+
+  .container {
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .container-wide {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .lede {
+    padding: 120px 0 80px;
+    position: relative;
+  }
+
+  .lede p {
+    font-size: 24px;
+    line-height: 1.55;
+    font-weight: 300;
+    color: var(--paper-dim);
+    margin-bottom: 28px;
+  }
+
+  .lede p:first-of-type::first-letter {
+    font-family: 'Fraunces', serif;
+    font-size: 110px;
+    font-weight: 800;
+    float: left;
+    line-height: 0.85;
+    padding: 8px 14px 0 0;
+    color: var(--amber);
+  }
+
+  .lede p strong {
+    color: var(--paper);
+    font-weight: 600;
+  }
+
+  /* Section */
+  section.chapter {
+    padding: 80px 0;
+    border-top: 1px solid var(--line);
+    position: relative;
+  }
+
+  .chapter-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--amber);
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .chapter-num::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(36px, 5.5vw, 64px);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin-bottom: 48px;
+    color: var(--paper);
+  }
+
+  h2 em {
+    font-style: italic;
+    color: var(--amber);
+    font-weight: 400;
+  }
+
+  h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 1.25;
+    margin: 48px 0 20px;
+    color: var(--paper);
+    letter-spacing: -0.01em;
+  }
+
+  article p {
+    margin-bottom: 24px;
+    color: var(--paper-dim);
+  }
+
+  article p strong {
+    color: var(--paper);
+    font-weight: 600;
+  }
+
+  article p em {
+    color: var(--amber);
+    font-style: italic;
+  }
+
+  /* Pull quote */
+  .pullquote {
+    margin: 72px -40px;
+    padding: 48px 56px;
+    border-left: 3px solid var(--amber);
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 32px;
+    line-height: 1.3;
+    color: var(--paper);
+    letter-spacing: -0.01em;
+    background: linear-gradient(90deg, rgba(232, 163, 61, 0.05), transparent);
+  }
+
+  .pullquote cite {
+    display: block;
+    margin-top: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-style: normal;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+  }
+
+  /* Stat block */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin: 56px 0;
+    padding: 40px 0;
+    border-top: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .stat {
+    text-align: left;
+  }
+
+  .stat .num {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(36px, 5vw, 56px);
+    color: var(--amber);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .stat .desc {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* Probability table */
+  .prob-table {
+    margin: 56px 0;
+    border: 1px solid var(--line-strong);
+    background: var(--ink-2);
+  }
+
+  .prob-header {
+    padding: 24px 32px;
+    border-bottom: 1px solid var(--line-strong);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--amber);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .prob-row {
+    display: grid;
+    grid-template-columns: 1fr auto 3fr;
+    gap: 24px;
+    padding: 24px 32px;
+    border-bottom: 1px solid var(--line);
+    align-items: center;
+  }
+
+  .prob-row:last-child { border-bottom: none; }
+
+  .prob-row .duration {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    color: var(--paper);
+    font-weight: 500;
+  }
+
+  .prob-row .pct {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px;
+    color: var(--amber);
+    font-weight: 600;
+    min-width: 60px;
+    text-align: right;
+  }
+
+  .prob-row .bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .prob-row .bar {
+    height: 4px;
+    background: var(--amber);
+    border-radius: 2px;
+  }
+
+  .prob-row .note {
+    font-family: 'Fraunces', serif;
+    font-size: 14px;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* Power table */
+  .power-table {
+    margin: 56px 0;
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Fraunces', serif;
+  }
+
+  .power-table th {
+    text-align: left;
+    padding: 16px 12px;
+    border-bottom: 2px solid var(--amber);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--amber);
+    font-weight: 600;
+  }
+
+  .power-table td {
+    padding: 20px 12px;
+    border-bottom: 1px solid var(--line);
+    color: var(--paper-dim);
+    font-size: 15px;
+    vertical-align: top;
+  }
+
+  .power-table td:first-child {
+    color: var(--paper);
+    font-weight: 600;
+  }
+
+  .power-table .up { color: #7fd17f; font-weight: 600; }
+  .power-table .down { color: #ff6b6b; font-weight: 600; }
+  .power-table .flat { color: var(--muted); }
+
+  /* Divider */
+  .ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 80px 0;
+    gap: 24px;
+  }
+
+  .ornament::before,
+  .ornament::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--line-strong), transparent);
+  }
+
+  .ornament .diamond {
+    width: 8px;
+    height: 8px;
+    background: var(--amber);
+    transform: rotate(45deg);
+  }
+
+  /* Key insight callout */
+  .callout {
+    margin: 56px 0;
+    padding: 40px;
+    background: linear-gradient(135deg, rgba(232, 163, 61, 0.08), rgba(197, 74, 44, 0.04));
+    border: 1px solid var(--line-strong);
+    border-left: 3px solid var(--amber);
+    position: relative;
+  }
+
+  .callout .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: var(--amber);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .callout p {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--paper);
+    font-style: italic;
+    margin: 0;
+  }
+
+  /* Final coda */
+  .coda {
+    padding: 140px 0 160px;
+    text-align: center;
+    background: linear-gradient(180deg, var(--ink) 0%, #140f0a 100%);
+    border-top: 1px solid var(--line-strong);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .coda::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(232, 163, 61, 0.08), transparent 60%);
+    pointer-events: none;
+  }
+
+  .coda-text {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(32px, 5vw, 56px);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .coda-text em {
+    font-style: italic;
+    color: var(--amber);
+  }
+
+  .coda-sig {
+    margin-top: 64px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--muted);
+  }
+
+  /* Footer */
+  footer {
+    background: #060607;
+    padding: 40px 24px;
+    border-top: 1px solid var(--line);
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    body { font-size: 17px; }
+    .lede p { font-size: 20px; }
+    .lede p:first-of-type::first-letter { font-size: 80px; }
+    .pullquote {
+      margin: 48px 0;
+      padding: 32px 24px;
+      font-size: 22px;
+    }
+    .stat-row { grid-template-columns: 1fr; gap: 32px; }
+    .prob-row {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    .prob-row .pct { text-align: left; }
+    .power-table { font-size: 13px; }
+    .power-table th, .power-table td { padding: 12px 6px; }
+    .meta-row { gap: 24px; }
+    .callout { padding: 24px; }
+    .callout p { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== HERO ========== -->
+<header class="hero">
+  <div class="masthead">
+    <span class="mark">◆ DISPATCHES / GEOPOLITICS</span>
+    <span>VOL. I — ISSUE 01</span>
+  </div>
+
+  <div class="hero-content">
+    <div class="eyebrow">A Forecast in Four Parts</div>
+    <h1 class="title">The One-Year<br><em>Threshold</em></h1>
+    <p class="subtitle">How the war in Iran, the production curves of precision munitions, and the quiet arithmetic of endurance are resetting the global order — and what the world looks like in 2036.</p>
+
+    <div class="meta-row">
+      <div>
+        <span class="label">Published</span>
+        <span class="value amber">April 2026</span>
+      </div>
+      <div>
+        <span class="label">Reading time</span>
+        <span class="value">~25 minutes</span>
+      </div>
+      <div>
+        <span class="label">Filed under</span>
+        <span class="value">Long-form analysis</span>
+      </div>
+      <div>
+        <span class="label">Status</span>
+        <span class="value">War active — Day 41</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ========== ARTICLE ========== -->
+<article>
+
+  <!-- LEDE -->
+  <div class="container lede">
+    <p>The United States and its partners may win the opening phase of the war with Iran. That is no longer the central question.</p>
+    <p>The real question is <strong>how long the war lasts</strong>.</p>
+    <p>Operation Epic Fury began on February 28, 2026, as a campaign designed to deliver rapid, decisive results. In its early weeks, it largely did. Iranian air defenses were degraded, missile infrastructure was struck, and key figures in the IRGC and Iran's nuclear program were removed. By traditional measures, the campaign succeeded in its initial objectives.</p>
+    <p>But modern war no longer hinges on the opening blow. It hinges on duration. Modern firepower can destroy in days what takes years to replace. Call it the <strong>Duration Paradox</strong> — the central feature of warfare in 2026, and the lens through which the rest of this decade will be understood.</p>
+  </div>
+
+  <!-- CHAPTER I -->
+  <section class="chapter">
+    <div class="container">
+      <div class="chapter-num">Chapter I</div>
+      <h2>Power Now Has a <em>Production Curve</em></h2>
+
+      <p>The first lesson of this war is that modern military power is front-loaded.</p>
+
+      <div class="stat-row">
+        <div class="stat">
+          <span class="num">850+</span>
+          <span class="desc">Tomahawk cruise missiles<br>fired in first 4 weeks</span>
+        </div>
+        <div class="stat">
+          <span class="num">3–7<span style="font-size:0.5em">yr</span></span>
+          <span class="desc">Replenishment timeline<br>for high-end interceptors</span>
+        </div>
+        <div class="stat">
+          <span class="num">1.24<span style="font-size:0.5em">T</span></span>
+          <span class="desc">US defense budget, PPP —<br>and still not enough</span>
+        </div>
+      </div>
+
+      <p>THAAD, SM-3, and Arrow interceptors — the high-end systems that protect Gulf bases and Israeli cities — have been consumed at rates that previous regional exchanges had only hinted at. These are not weapons that can be replaced on a wartime timeline. Production cycles stretch months or years. Supply chains are narrow. Industrial surge capacity is limited. Emergency funding helps, but it cannot instantly expand production lines, resolve component bottlenecks, or break critical-material dependencies.</p>
+
+      <p><strong>This is not a collapse of American power. It is a compression of it.</strong></p>
+
+      <p>The United States remains the world's strongest military actor. But strength is no longer measured only by what can be deployed today. It is measured by what can be replenished tomorrow. The longer the war continues, the more power shifts from inventory to industry — from the magazine to the factory floor.</p>
+
+      <div class="pullquote">
+        "Every month spent sustaining a high-intensity campaign in the Middle East narrows Washington's flexibility elsewhere. Deterrence in the Indo-Pacific does not disappear — it becomes conditional."
+        <cite>— The production curve problem</cite>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAPTER II -->
+  <section class="chapter">
+    <div class="container">
+      <div class="chapter-num">Chapter II</div>
+      <h2>The War China <em>Doesn't Have to Fight</em></h2>
+
+      <p>China does not need to win this war. It only needs it to continue.</p>
+
+      <p>Beijing's advantage operates across three forms of arbitrage. There is <strong>readiness arbitrage</strong> — preserving its own high-end inventories while a rival burns through precision systems. There is <strong>diplomatic arbitrage</strong> — positioning itself as a voice of restraint across the Global South while Washington bears the enforcement burden. And there is <strong>industrial arbitrage</strong> — shifting global competition toward scale, supply-chain control, and state-coordinated production, which are precisely the domains where China holds structural advantages.</p>
+
+      <p>None of this is free. China remains deeply dependent on Middle Eastern energy flows, and prolonged disruption in the Gulf places real pressure on Asian economies, including its own. But the balance of effects still favors Beijing if the war becomes extended. The longer the conflict lasts, the more it shifts global competition away from battlefield dominance and toward systemic endurance.</p>
+
+      <p><em>That is terrain on which China is comfortable.</em></p>
+    </div>
+  </section>
+
+  <!-- CHAPTER III -->
+  <section class="chapter">
+    <div class="container">
+      <div class="chapter-num">Chapter III</div>
+      <h2>Israel and the <em>Limits of Tactical Success</em></h2>
+
+      <p>No country illustrates the Duration Paradox more clearly than Israel.</p>
+
+      <p>In the opening phase of the war, Israeli operations delivered significant tactical successes. Iranian air defenses were degraded. Long-range missile infrastructure was disrupted. The command structure that had spent decades organizing threats against Israel was meaningfully damaged. These were real strategic gains against a genuinely dangerous adversary, and under the logic of short wars, they might have defined victory.</p>
+
+      <p><strong>But prolonged conflict tells a different story.</strong></p>
+
+      <p>Israel is consuming Arrow, David's Sling, and Iron Dome interceptors at a pace that is difficult to sustain. Reports indicate that Arrow stocks in particular have forced rationing decisions, with greater reliance on the lower tiers of the defensive stack against sustained Iranian barrages. Even with U.S. support and accelerated domestic production, replenishment will take months to years. The result is not immediate exhaustion but gradual narrowing — fewer options, tighter constraints, harder trade-offs with each passing week.</p>
+
+      <p>That dependence creates a strategic dilemma. Israel must maintain operational intensity to preserve deterrence. But doing so deepens reliance on the United States at precisely the moment Washington's own resources are under strain. The result is a familiar pattern: tactical success paired with strategic friction.</p>
+
+      <div class="callout">
+        <span class="tag">◆ The deeper pattern</span>
+        <p>Israel is not uniquely vulnerable. It is simply the first advanced military to encounter, in real time, the constraints that duration imposes.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAPTER IV -->
+  <section class="chapter">
+    <div class="container">
+      <div class="chapter-num">Chapter IV</div>
+      <h2>The Return of <em>Nuclear Hedging</em></h2>
+
+      <p>As wars lengthen, guarantees weaken.</p>
+
+      <p>A prolonged conflict does not automatically produce nuclear proliferation. But it does accelerate nuclear hedging. Regional powers begin to invest more heavily in dual-use infrastructure, fuel-cycle capabilities, and latent deterrent capacity. Breakout timelines shorten. Political arguments for self-reliance gain traction in capitals that had previously deferred to American security guarantees.</p>
+
+      <p>The message absorbed is not that alliances are meaningless. It is that they are <em>finite</em>.</p>
+
+      <p>Once that perception spreads, the non-proliferation system shifts from a structure of restraint to one of optionality. Saudi Arabia, Türkiye, and others are making calculations now that would have been politically impossible eighteen months ago. The longer the war runs, the harder those calculations become to reverse.</p>
+    </div>
+  </section>
+
+  <div class="ornament"><div class="diamond"></div></div>
+
+  <!-- PART TWO: FORECAST -->
+  <section class="chapter">
+    <div class="container">
+      <div class="chapter-num">Part Two — The Forecast</div>
+      <h2>How Long Will the <em>War Last?</em></h2>
+
+      <p>Forecasting the duration of an active war is closer to weather prediction than to physics. The underlying dynamics are knowable, but the system is chaotic and small inputs can produce wildly different outputs. What follows is a structured guess, not a prediction.</p>
+
+      <p>Several dynamics are working in favor of the war ending sooner rather than later. Munitions depletion creates its own off-ramp — every Tomahawk fired is a vote inside the Pentagon for finding an exit. Iran has more to lose than to gain by continuing. Global economic pressure is mounting on every party. And a face-saving off-ramp exists: the war's stated objectives have largely been achieved in the opening phase.</p>
+
+      <p>Working in the other direction are dynamics that historically extend conflicts past their rational endpoints. Iranian retaliation creates escalation pressure. Regime change ambitions extend wars indefinitely. Hezbollah, the Houthis, and Iraqi militias provide endless secondary fronts. And wars routinely outlast their planners' assumptions — the base rate for "this will be over soon" being wrong is very high.</p>
+
+      <h3>Probability Distribution</h3>
+
+      <div class="prob-table">
+        <div class="prob-header">
+          <span>Duration scenario</span>
+          <span>Probability</span>
+        </div>
+        <div class="prob-row">
+          <span class="duration">2 months — ends April 2026</span>
+          <span class="pct">~10%</span>
+          <div class="bar-wrap">
+            <div class="bar" style="width:10%"></div>
+            <span class="note">Window closing fast</span>
+          </div>
+        </div>
+        <div class="prob-row">
+          <span class="duration">6 months — ends August 2026</span>
+          <span class="pct">~25%</span>
+          <div class="bar-wrap">
+            <div class="bar" style="width:25%"></div>
+            <span class="note">Rational off-ramp scenario</span>
+          </div>
+        </div>
+        <div class="prob-row">
+          <span class="duration">9 months — ends November 2026</span>
+          <span class="pct">~25%</span>
+          <div class="bar-wrap">
+            <div class="bar" style="width:25%"></div>
+            <span class="note">Midterm forcing function</span>
+          </div>
+        </div>
+        <div class="prob-row">
+          <span class="duration">1 year — ends February 2027</span>
+          <span class="pct">~20%</span>
+          <div class="bar-wrap">
+            <div class="bar" style="width:20%"></div>
+            <span class="note">War becomes a system</span>
+          </div>
+        </div>
+        <div class="prob-row">
+          <span class="duration">2 years — ends February 2028</span>
+          <span class="pct">~15%</span>
+          <div class="bar-wrap">
+            <div class="bar" style="width:15%"></div>
+            <span class="note">Structural reordering</span>
+          </div>
+        </div>
+        <div class="prob-row">
+          <span class="duration">5 years — ends ~2031</span>
+          <span class="pct">~5%</span>
+          <div class="bar-wrap">
+            <div class="bar" style="width:5%"></div>
+            <span class="note">Tail risk, not base case</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <span class="tag">◆ Best guess</span>
+        <p>The war most likely ends between September and December 2026 — roughly seven to ten months in — with a messy ceasefire rather than a clean conclusion. Iran weakened but intact. Both sides claim victory. Neither fully believes it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAPTER: THE WORLD IN 2036 -->
+  <section class="chapter">
+    <div class="container-wide">
+      <div class="chapter-num">Part Three — The Aftermath</div>
+      <h2>The World in <em>2036</em></h2>
+    </div>
+    <div class="container">
+      <p>Assume the central scenario holds: the war ends in late 2026 after roughly eight months of hostilities, with a brittle ceasefire and an Iran that is weakened but intact. What does the world look like ten years after the war began?</p>
+
+      <p><strong>The United States remains the leading power, but visibly diminished in flexibility.</strong> The depleted munitions stockpiles take most of the decade to rebuild. Washington spends the late 2020s and early 2030s in a defensive crouch — not retreating from commitments, but unable to underwrite them with the same credibility. The swagger is gone. Every alliance commitment is a little more conditional.</p>
+
+      <p><strong>China emerges as the largest relative beneficiary, but not transformed.</strong> Beijing gets what it needed: time, distraction of its rival, and validation of its patient-power approach. But it doesn't get Taiwan, doesn't get a collapse of the American alliance system, and doesn't escape its own structural problems. China in 2036 is more powerful relative to the US than it was in 2026 — and also visibly past its peak growth phase.</p>
+
+      <p><strong>India is the largest absolute beneficiary.</strong> Every dynamic of the war works in India's favor. Discounted oil. Diplomatic space created by superpower distraction. A deepening EU-India trade architecture. By 2036, India is unambiguously the world's third pole — no longer in a category with anyone else.</p>
+
+      <p><strong>Russia is finished as a great power.</strong> This is the most confident call in the entire forecast. The combination of Ukraine, the Iran war's secondary effects, demographic collapse, and deepening dependence on China leaves Russia as a regional power with nuclear weapons rather than a global player.</p>
+
+    </div>
+
+    <div class="container-wide">
+      <table class="power-table">
+        <thead>
+          <tr>
+            <th>Power</th>
+            <th>2026 status</th>
+            <th>2036 projection</th>
+            <th>Trend</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>United States</td>
+            <td>Superpower, contested</td>
+            <td>Leading but less flexible</td>
+            <td class="flat">→</td>
+          </tr>
+          <tr>
+            <td>China</td>
+            <td>Superpower</td>
+            <td>Regionally dominant, past peak</td>
+            <td class="flat">→</td>
+          </tr>
+          <tr>
+            <td>India</td>
+            <td>Rising great power</td>
+            <td>Third indispensable pole</td>
+            <td class="up">↑↑</td>
+          </tr>
+          <tr>
+            <td>European Union</td>
+            <td>Rearming great power bloc</td>
+            <td>Stronger or fragmented — bimodal</td>
+            <td class="up">↑ / ↓</td>
+          </tr>
+          <tr>
+            <td>Russia</td>
+            <td>Diminished great power</td>
+            <td>Regional power with nukes</td>
+            <td class="down">↓↓</td>
+          </tr>
+          <tr>
+            <td>Japan</td>
+            <td>Rearming great power</td>
+            <td>Key Indo-Pacific security anchor</td>
+            <td class="up">↑</td>
+          </tr>
+          <tr>
+            <td>Türkiye</td>
+            <td>Assertive middle power</td>
+            <td>Regional heavyweight, likely nuclear-ambiguous</td>
+            <td class="up">↑↑</td>
+          </tr>
+          <tr>
+            <td>Saudi Arabia</td>
+            <td>Middle power</td>
+            <td>Diversified, likely nuclear</td>
+            <td class="up">↑↑</td>
+          </tr>
+          <tr>
+            <td>UAE</td>
+            <td>Middle power</td>
+            <td>Outsized AI & finance hub</td>
+            <td class="up">↑↑</td>
+          </tr>
+          <tr>
+            <td>Iran</td>
+            <td>Weakened regional power</td>
+            <td>Inward, weakened, regime survives</td>
+            <td class="down">↓</td>
+          </tr>
+          <tr>
+            <td>Israel</td>
+            <td>Regional military power</td>
+            <td>Secure vs. states, diplomatically isolated</td>
+            <td class="flat">→</td>
+          </tr>
+          <tr>
+            <td>Indonesia</td>
+            <td>Rising middle power</td>
+            <td>Top-10 economy, minerals leverage</td>
+            <td class="up">↑↑</td>
+          </tr>
+          <tr>
+            <td>United Kingdom</td>
+            <td>Mid-tier great power</td>
+            <td>Similar or slightly weaker</td>
+            <td class="down">↓</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="container">
+      <p>The post-2025 normalization architecture between Israel and the Gulf states either holds and deepens, or it cracks under the weight of regional anger over civilian casualties — and which of those happens depends on details we can't see yet.</p>
+
+      <p>The middle powers are the structural winners. Türkiye, the UAE, Saudi Arabia, Indonesia, Brazil, Poland, Vietnam — every one of them ends the decade with more autonomy and more leverage than they started. The diffusion of agency accelerates through the war and persists after it. The 2036 world has many more consequential players than the 2026 world, and those players have learned that hedging is the dominant strategy.</p>
+
+      <p>The AI race continues to compound, with the Gulf states as unexpected swing players. The compute infrastructure buildout accelerates through the war years, because the war makes American and European democracies even less able to build at speed while the Gulf states' advantages compound. By 2036, a meaningful percentage of global frontier AI training and inference happens in UAE and Saudi facilities.</p>
+    </div>
+  </section>
+
+  <!-- CODA -->
+  <div class="coda">
+    <div class="container">
+      <p class="coda-text">The most likely 2036 is one in which the international system is recognizably continuous with today — but visibly weaker, more fragmented, more dangerous, and more dependent on <em>endurance</em> than on the dominance of any one of its participants.</p>
+      <p class="coda-sig">◆ End of dispatch</p>
+    </div>
+  </div>
+
+</article>
+
+<footer>
+  <p>Dispatches in Geopolitics — April 2026 — A structured forecast, held loosely</p>
+</footer>
+
+</body>
+</html>
