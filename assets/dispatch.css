@@ -1,0 +1,1040 @@
+/* ==========================================================================
+   FIELDNOTES — Shared stylesheet 
+   Used by: index.html (landing), one-year-threshold.html, ugarit-warning.html,
+            and all future dispatches.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. DESIGN TOKENS
+   -------------------------------------------------------------------------- */
+:root {
+  --ink: #0a0a0b;
+  --ink-2: #131418;
+  --ink-3: #1c1e24;
+  --paper: #f5f1e8;
+  --paper-dim: #d8d2c2;
+  --muted: #8a8577;
+  --amber: #e8a33d;
+  --amber-bright: #f5b947;
+  --rust: #c54a2c;
+  --blood: #8b1a1a;
+  --line: rgba(245, 241, 232, 0.12);
+  --line-strong: rgba(245, 241, 232, 0.25);
+}
+
+/* --------------------------------------------------------------------------
+   2. RESET & BASE
+   -------------------------------------------------------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 400;
+  font-size: 19px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Global noise overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* --------------------------------------------------------------------------
+   3. TOP BAR (shared across all pages)
+   -------------------------------------------------------------------------- */
+.top-bar {
+  position: relative;
+  padding: 40px 6vw 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line);
+}
+
+.top-bar .mark {
+  color: var(--amber);
+  font-weight: 600;
+}
+
+.top-bar a {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.top-bar a:hover {
+  color: var(--amber);
+}
+
+/* --------------------------------------------------------------------------
+   4. HERO / MASTHEAD (used by landing + dispatch pages)
+   -------------------------------------------------------------------------- */
+.hero {
+  position: relative;
+  padding: 100px 6vw 120px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+}
+
+/* Dispatch pages get a taller hero that fills the viewport */
+.hero.hero-dispatch {
+  min-height: 100vh;
+  padding: 40px 6vw 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 70% 30%, rgba(232, 163, 61, 0.15), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 20% 80%, rgba(139, 26, 26, 0.18), transparent 60%),
+    linear-gradient(180deg, #0a0a0b 0%, #14100c 100%);
+  z-index: -2;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(245, 241, 232, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245, 241, 232, 0.03) 1px, transparent 1px);
+  background-size: 80px 80px;
+  z-index: -1;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+}
+
+.hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.hero-content {
+  max-width: 1200px;
+  margin: auto 0;
+}
+
+/* Masthead for dispatch pages (top of hero) */
+.masthead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.masthead .mark {
+  color: var(--amber);
+  font-weight: 600;
+}
+
+.masthead a {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.masthead a:hover {
+  color: var(--amber);
+}
+
+/* Eyebrow tag above headline */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: var(--amber);
+  margin-bottom: 32px;
+  animation: fadeUp 0.8s ease-out;
+}
+
+.eyebrow::before {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--amber);
+}
+
+/* Landing page wordmark */
+h1.wordmark {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: clamp(72px, 14vw, 220px);
+  line-height: 0.85;
+  letter-spacing: -0.045em;
+  margin-bottom: 40px;
+  animation: fadeUp 1s ease-out 0.1s backwards;
+}
+
+h1.wordmark em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--amber);
+}
+
+/* Dispatch page title */
+h1.title {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: clamp(48px, 9vw, 140px);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  margin-bottom: 32px;
+  animation: fadeUp 1s ease-out 0.1s backwards;
+}
+
+h1.title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--amber);
+}
+
+/* Tagline (landing) / subtitle (dispatch) */
+.tagline,
+.subtitle {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.35;
+  color: var(--paper-dim);
+  max-width: 820px;
+  margin-bottom: 56px;
+  animation: fadeUp 1s ease-out 0.3s backwards;
+}
+
+.tagline {
+  font-size: clamp(22px, 2.8vw, 36px);
+}
+
+.subtitle {
+  font-size: clamp(20px, 2.5vw, 32px);
+  margin-bottom: 48px;
+}
+
+/* Mission strip (landing page) */
+.mission {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  padding-top: 32px;
+  border-top: 1px solid var(--line);
+  animation: fadeUp 1s ease-out 0.5s backwards;
+}
+
+.mission-item {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+}
+
+.mission-item strong {
+  display: block;
+  color: var(--amber);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.mission-item span {
+  display: block;
+  color: var(--paper);
+  font-family: 'Fraunces', serif;
+  font-size: 15px;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+/* Meta row (dispatch pages) */
+.meta-row {
+  display: flex;
+  gap: 48px;
+  flex-wrap: wrap;
+  padding-top: 32px;
+  border-top: 1px solid var(--line);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  animation: fadeUp 1s ease-out 0.5s backwards;
+}
+
+.meta-row .label {
+  display: block;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.meta-row .value {
+  color: var(--paper);
+  font-family: 'Fraunces', serif;
+  font-size: 15px;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+
+.meta-row .value.amber {
+  color: var(--amber);
+}
+
+/* --------------------------------------------------------------------------
+   5. ARCHIVE (landing page only)
+   -------------------------------------------------------------------------- */
+.archive {
+  padding: 120px 6vw 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.archive-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 72px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.archive-header h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: clamp(36px, 5vw, 56px);
+  letter-spacing: -0.02em;
+}
+
+.archive-header h2 em {
+  font-style: italic;
+  color: var(--amber);
+}
+
+.archive-header .count {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+}
+
+.dispatch-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.dispatch {
+  display: grid;
+  grid-template-columns: 120px 1fr auto;
+  gap: 48px;
+  padding: 48px 0;
+  border-top: 1px solid var(--line);
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.4s ease;
+  position: relative;
+}
+
+.dispatch:first-child {
+  border-top: none;
+}
+
+.dispatch::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(232, 163, 61, 0.04), transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.dispatch:hover::before {
+  opacity: 1;
+}
+
+.dispatch:hover .dispatch-title {
+  color: var(--amber);
+}
+
+.dispatch:hover .dispatch-arrow {
+  transform: translateX(8px);
+  color: var(--amber);
+}
+
+.dispatch-number {
+  font-family: 'Fraunces', serif;
+  font-size: 48px;
+  font-weight: 300;
+  color: var(--amber);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.dispatch-content {
+  min-width: 0;
+}
+
+.dispatch-meta {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+}
+
+.dispatch-meta .tag {
+  color: var(--amber);
+}
+
+.dispatch-meta .sep {
+  opacity: 0.4;
+}
+
+.dispatch-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: clamp(28px, 3.5vw, 42px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+  color: var(--paper);
+  transition: color 0.3s ease;
+}
+
+.dispatch-title em {
+  font-style: italic;
+  color: var(--amber);
+}
+
+.dispatch-subtitle {
+  font-family: 'Fraunces', serif;
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--paper-dim);
+  max-width: 640px;
+  font-weight: 300;
+}
+
+.dispatch-arrow {
+  align-self: center;
+  font-family: 'Fraunces', serif;
+  font-size: 40px;
+  color: var(--muted);
+  transition: all 0.4s ease;
+  line-height: 1;
+}
+
+/* --------------------------------------------------------------------------
+   6. ARTICLE BODY (dispatch pages)
+   -------------------------------------------------------------------------- */
+article {
+  background: var(--ink);
+  position: relative;
+}
+
+.container {
+  max-width: 740px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.container-wide {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Lede with drop cap */
+.lede {
+  padding: 120px 0 80px;
+  position: relative;
+}
+
+.lede p {
+  font-size: 24px;
+  line-height: 1.55;
+  font-weight: 300;
+  color: var(--paper-dim);
+  margin-bottom: 28px;
+}
+
+.lede p:first-of-type::first-letter {
+  font-family: 'Fraunces', serif;
+  font-size: 110px;
+  font-weight: 800;
+  float: left;
+  line-height: 0.85;
+  padding: 8px 14px 0 0;
+  color: var(--amber);
+}
+
+.lede p strong {
+  color: var(--paper);
+  font-weight: 600;
+}
+
+/* Chapter sections */
+section.chapter {
+  padding: 80px 0;
+  border-top: 1px solid var(--line);
+  position: relative;
+}
+
+.chapter-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--amber);
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.chapter-num::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: clamp(36px, 5.5vw, 64px);
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  margin-bottom: 48px;
+  color: var(--paper);
+}
+
+h2 em {
+  font-style: italic;
+  color: var(--amber);
+  font-weight: 400;
+}
+
+h3 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 26px;
+  line-height: 1.25;
+  margin: 48px 0 20px;
+  color: var(--paper);
+  letter-spacing: -0.01em;
+}
+
+article p {
+  margin-bottom: 24px;
+  color: var(--paper-dim);
+}
+
+article p strong {
+  color: var(--paper);
+  font-weight: 600;
+}
+
+article p em {
+  color: var(--amber);
+  font-style: italic;
+}
+
+/* Pull quote */
+.pullquote {
+  margin: 72px -40px;
+  padding: 48px 56px;
+  border-left: 3px solid var(--amber);
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: 32px;
+  line-height: 1.3;
+  color: var(--paper);
+  letter-spacing: -0.01em;
+  background: linear-gradient(90deg, rgba(232, 163, 61, 0.05), transparent);
+}
+
+.pullquote cite {
+  display: block;
+  margin-top: 24px;
+  font-family: 'JetBrains Mono', monospace;
+  font-style: normal;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+}
+
+/* Stat block */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin: 56px 0;
+  padding: 40px 0;
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.stat {
+  text-align: left;
+}
+
+.stat .num {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: clamp(36px, 5vw, 56px);
+  color: var(--amber);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.stat .desc {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* Probability table */
+.prob-table {
+  margin: 56px 0;
+  border: 1px solid var(--line-strong);
+  background: var(--ink-2);
+}
+
+.prob-header {
+  padding: 24px 32px;
+  border-bottom: 1px solid var(--line-strong);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--amber);
+  display: flex;
+  justify-content: space-between;
+}
+
+.prob-row {
+  display: grid;
+  grid-template-columns: 1fr auto 3fr;
+  gap: 24px;
+  padding: 24px 32px;
+  border-bottom: 1px solid var(--line);
+  align-items: center;
+}
+
+.prob-row:last-child {
+  border-bottom: none;
+}
+
+.prob-row .duration {
+  font-family: 'Fraunces', serif;
+  font-size: 18px;
+  color: var(--paper);
+  font-weight: 500;
+}
+
+.prob-row .pct {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px;
+  color: var(--amber);
+  font-weight: 600;
+  min-width: 60px;
+  text-align: right;
+}
+
+.prob-row .bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.prob-row .bar {
+  height: 4px;
+  background: var(--amber);
+  border-radius: 2px;
+}
+
+.prob-row .note {
+  font-family: 'Fraunces', serif;
+  font-size: 14px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* Power / data table */
+.power-table {
+  margin: 56px 0;
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Fraunces', serif;
+}
+
+.power-table th {
+  text-align: left;
+  padding: 16px 12px;
+  border-bottom: 2px solid var(--amber);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--amber);
+  font-weight: 600;
+}
+
+.power-table td {
+  padding: 20px 12px;
+  border-bottom: 1px solid var(--line);
+  color: var(--paper-dim);
+  font-size: 15px;
+  vertical-align: top;
+}
+
+.power-table td:first-child {
+  color: var(--paper);
+  font-weight: 600;
+}
+
+.power-table .up { color: #7fd17f; font-weight: 600; }
+.power-table .down { color: #ff6b6b; font-weight: 600; }
+.power-table .flat { color: var(--muted); }
+
+/* Ornamental divider */
+.ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 80px 0;
+  gap: 24px;
+}
+
+.ornament::before,
+.ornament::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--line-strong), transparent);
+}
+
+.ornament .diamond {
+  width: 8px;
+  height: 8px;
+  background: var(--amber);
+  transform: rotate(45deg);
+}
+
+/* Key insight callout */
+.callout {
+  margin: 56px 0;
+  padding: 40px;
+  background: linear-gradient(135deg, rgba(232, 163, 61, 0.08), rgba(197, 74, 44, 0.04));
+  border: 1px solid var(--line-strong);
+  border-left: 3px solid var(--amber);
+  position: relative;
+}
+
+.callout .tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: var(--amber);
+  margin-bottom: 16px;
+  display: block;
+}
+
+.callout p {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  line-height: 1.5;
+  color: var(--paper);
+  font-style: italic;
+  margin: 0;
+}
+
+/* Final coda */
+.coda {
+  padding: 140px 0 160px;
+  text-align: center;
+  background: linear-gradient(180deg, var(--ink) 0%, #140f0a 100%);
+  border-top: 1px solid var(--line-strong);
+  position: relative;
+  overflow: hidden;
+}
+
+.coda::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(232, 163, 61, 0.08), transparent 60%);
+  pointer-events: none;
+}
+
+.coda-text {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: clamp(32px, 5vw, 56px);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.coda-text em {
+  font-style: italic;
+  color: var(--amber);
+}
+
+.coda-sig {
+  margin-top: 64px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--muted);
+}
+
+/* --------------------------------------------------------------------------
+   7. ABOUT SECTION (landing page)
+   -------------------------------------------------------------------------- */
+.about {
+  padding: 80px 6vw 60px;
+  border-top: 1px solid var(--line);
+  background: linear-gradient(180deg, var(--ink) 0%, #0f0b08 100%);
+}
+
+.about-inner {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.about h3 {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 32px;
+}
+
+.about h3 em {
+  font-style: italic;
+  color: var(--amber);
+}
+
+.about p {
+  font-family: 'Fraunces', serif;
+  font-size: 18px;
+  line-height: 1.65;
+  color: var(--paper-dim);
+  margin-bottom: 20px;
+}
+
+.about p strong {
+  color: var(--paper);
+  font-weight: 500;
+}
+
+/* --------------------------------------------------------------------------
+   8. RETURN-TO-ARCHIVE LINK (dispatch pages)
+   -------------------------------------------------------------------------- */
+.return-link {
+  display: block;
+  text-align: center;
+  padding: 40px 24px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  text-decoration: none;
+  border-top: 1px solid var(--line);
+  transition: color 0.3s ease;
+}
+
+.return-link:hover {
+  color: var(--amber);
+}
+
+/* --------------------------------------------------------------------------
+   9. FOOTER
+   -------------------------------------------------------------------------- */
+footer {
+  background: #060607;
+  padding: 40px 24px;
+  border-top: 1px solid var(--line);
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+}
+
+footer .diamond {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--amber);
+  transform: rotate(45deg);
+  margin: 0 12px;
+  vertical-align: middle;
+}
+
+/* --------------------------------------------------------------------------
+   10. ANIMATIONS
+   -------------------------------------------------------------------------- */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   11. RESPONSIVE
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .mission {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  .dispatch {
+    grid-template-columns: 60px 1fr;
+    gap: 24px;
+    padding: 36px 0;
+  }
+  .dispatch-number {
+    font-size: 32px;
+  }
+  .dispatch-arrow {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 17px;
+  }
+  .lede p {
+    font-size: 20px;
+  }
+  .lede p:first-of-type::first-letter {
+    font-size: 80px;
+  }
+  .pullquote {
+    margin: 48px 0;
+    padding: 32px 24px;
+    font-size: 22px;
+  }
+  .stat-row {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .prob-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .prob-row .pct {
+    text-align: left;
+  }
+  .power-table {
+    font-size: 13px;
+  }
+  .power-table th,
+  .power-table td {
+    padding: 12px 6px;
+  }
+  .meta-row {
+    gap: 24px;
+  }
+  .callout {
+    padding: 24px;
+  }
+  .callout p {
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero {
+    padding: 60px 6vw 80px;
+  }
+  .archive {
+    padding: 80px 6vw 60px;
+  }
+  .archive-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .mission {
+    grid-template-columns: 1fr;
+  }
+  .top-bar {
+    padding: 24px 6vw 20px;
+    gap: 12px;
+  }
+  .top-bar span:last-child {
+    display: none;
+  }
+  .dispatch-meta {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+  }
+}
