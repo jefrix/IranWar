@@ -39,34 +39,108 @@
 <meta name="twitter:image" content="https://jefrix.github.io/Fieldnotes/assets/og-fieldnotes.jpg">
 <meta name="twitter:image:alt" content="Fieldnotes — a publication in dispatches">
 
-<!-- Structured data: WebSite + Publisher -->
+<!-- Structured data: WebSite + Publisher + Article list -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "Fieldnotes",
-  "alternateName": "Fieldnotes Dispatches",
-  "url": "https://jefrix.github.io/Fieldnotes/",
-  "description": "Long-form observations from the terrain of the present — on geopolitics, history, science, and the shape of things as they change.",
-  "inLanguage": "en-US",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Fieldnotes",
-    "url": "https://jefrix.github.io/Fieldnotes/",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://jefrix.github.io/Fieldnotes/favicon.ico"
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://jefrix.github.io/Fieldnotes/#website",
+      "url": "https://jefrix.github.io/Fieldnotes/",
+      "name": "Fieldnotes",
+      "alternateName": "Fieldnotes Dispatches",
+      "description": "Long-form observations from the terrain of the present — on geopolitics, history, science, and the shape of things as they change.",
+      "inLanguage": "en-US",
+      "publisher": {
+        "@id": "https://jefrix.github.io/Fieldnotes/#organization"
+      }
     },
-    "founder": {
+    {
+      "@type": "Organization",
+      "@id": "https://jefrix.github.io/Fieldnotes/#organization",
+      "name": "Fieldnotes",
+      "url": "https://jefrix.github.io/Fieldnotes/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://jefrix.github.io/Fieldnotes/favicon.ico"
+      },
+      "founder": {
+        "@id": "https://jefrix.github.io/Fieldnotes/#person"
+      },
+      "foundingDate": "2026"
+    },
+    {
       "@type": "Person",
-      "name": "Jeff Ricks"
+      "@id": "https://jefrix.github.io/Fieldnotes/#person",
+      "name": "Jeff Ricks",
+      "url": "https://jefrix.github.io/Fieldnotes/",
+      "jobTitle": "Writer",
+      "worksFor": {
+        "@id": "https://jefrix.github.io/Fieldnotes/#organization"
+      }
+    },
+    {
+      "@type": "CollectionPage",
+      "@id": "https://jefrix.github.io/Fieldnotes/#collection",
+      "url": "https://jefrix.github.io/Fieldnotes/",
+      "name": "Fieldnotes — Dispatches Archive",
+      "description": "The complete archive of Fieldnotes dispatches on geopolitics, history, science, and the shape of the present.",
+      "isPartOf": {
+        "@id": "https://jefrix.github.io/Fieldnotes/#website"
+      },
+      "mainEntity": {
+        "@type": "ItemList",
+        "name": "Fieldnotes Dispatches",
+        "numberOfItems": 3,
+        "itemListOrder": "https://schema.org/ItemListOrderDescending",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@type": "Article",
+              "headline": "The Signature Problem: Why the Quantum Threat to Cryptocurrency Is Not What Most People Think",
+              "url": "https://jefrix.github.io/Fieldnotes/signature-problem.html",
+              "datePublished": "2026-04-10",
+              "author": {
+                "@id": "https://jefrix.github.io/Fieldnotes/#person"
+              },
+              "about": "Quantum computing and cryptocurrency security"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@type": "Article",
+              "headline": "The Ugarit Warning: What the End of the Bronze Age Knows About the 2020s",
+              "url": "https://jefrix.github.io/Fieldnotes/ugarit-warning.html",
+              "datePublished": "2026-04-10",
+              "author": {
+                "@id": "https://jefrix.github.io/Fieldnotes/#person"
+              },
+              "about": "Late Bronze Age collapse and modern systemic risk"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+              "@type": "Article",
+              "headline": "The One-Year Threshold: How Duration Is Resetting the Global Order",
+              "url": "https://jefrix.github.io/Fieldnotes/IranDuration.html",
+              "datePublished": "2026-04-10",
+              "author": {
+                "@id": "https://jefrix.github.io/Fieldnotes/#person"
+              },
+              "about": "The 2026 Iran war and the global order in 2036"
+            }
+          }
+        ]
+      }
     }
-  },
-  "author": {
-    "@type": "Person",
-    "name": "Jeff Ricks",
-    "url": "https://jefrix.github.io/Fieldnotes/"
-  }
+  ]
 }
 </script>
 
