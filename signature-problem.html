@@ -134,36 +134,7 @@
 <link rel="stylesheet" href="assets/dispatch.css">
 
 </head>
-```
 
----
-
-## How to Deploy These
-
-For each page, replace everything from `<!DOCTYPE html>` through `</head>` with the corresponding block above. The `<body>` and everything after it stays unchanged. Four files, four copy-paste operations.
-
-## The Hero Images You Still Need
-
-You'll want four 1200×630 pixel JPG files in your `assets` folder:
-
-- `og-fieldnotes.jpg` — for the landing page
-- `og-one-year-threshold.jpg` — for Dispatch №01
-- `og-ugarit-warning.jpg` — for Dispatch №02
-- `og-signature-problem.jpg` — for Dispatch №03
-
-The easiest way to make these: visit each page in your browser, take a screenshot of the hero section (the big title area at the top), crop it to 1200×630, and save as JPG. You'll end up with four images that match the visual identity of each dispatch perfectly and required zero design work. If you don't have a screenshot tool that can crop to a specific aspect ratio, any image editor can do it — even the built-in Photos app on macOS or the Snipping Tool on Windows.
-
-Until you make the images, the social previews will show a broken image, but the rest of the SEO work is still active. You can add the images later without needing to touch the HTML.
-
-## Two Optional Extras
-
-If you want to go further, the two files I'd add to the root of your repo are:
-
-**`robots.txt`** — a three-line file that tells search engines they're welcome and points them at the sitemap:
-```
-User-agent: *
-Allow: /
-Sitemap: https://jefrix.github.io/Fieldnotes/sitemap.xml
 <body>
 
 <!-- ========== HERO ========== -->
