@@ -43,5 +43,12 @@
   <changefreq>monthly</changefreq>
   <priority>0.9</priority>
 </url>
+         <!-- Dispatch №05 — The Toll Booth and the Tripwire -->
+<url>
+  <loc>https://jefrix.github.io/Fieldnotes/toll-booth-tripwire.html</loc>
+  <lastmod>2026-04-14</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.9</priority>
+</url>
         
 </urlset>
