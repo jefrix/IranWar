@@ -7,7 +7,7 @@
   <!-- Landing page / archive -->
   <url>
     <loc>https://jefrix.github.io/Fieldnotes/</loc>
-    <lastmod>2026-08-10</lastmod>
+    <lastmod>2026-09-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -200,6 +200,14 @@
   <url>
     <loc>https://jefrix.github.io/Fieldnotes/The-Clients-Doctrine.html</loc>
     <lastmod>2026-08-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Dispatch №25 — The Maintenance War -->
+  <url>
+    <loc>https://jefrix.github.io/Fieldnotes/The-Maintenance-War.html</loc>
+    <lastmod>2026-09-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
